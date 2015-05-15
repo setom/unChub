@@ -26,14 +26,14 @@ angular.module('unChub', ['ionic', 'unChub.controllers', 'unChub.activitiesDB'])
 .config(function($stateProvider, $urlRouterProvider) {
   $stateProvider
 
-  .state('app', {
+.state('app', {
     url: "/app",
     abstract: true,
     templateUrl: "templates/menu.html",
     controller: 'MenuCtrl'
   })
 
-  .state('app.home', {
+.state('app.home', {
     url: "/home",
     views: {
       'menuContent': {
@@ -43,12 +43,22 @@ angular.module('unChub', ['ionic', 'unChub.controllers', 'unChub.activitiesDB'])
     }
   })
   
-  .state('app.logActivity', {
+.state('app.logActivity', {
     url: "/logActivity",
     views: {
       'menuContent': {
         templateUrl: "templates/logActivity.html",
         controller: 'LogActivityCtrl'
+      }
+    }
+  })
+  
+.state('app.settings', {
+    url: "/settings",
+    views: {
+      'menuContent': {
+        templateUrl: "templates/settings.html",
+        controller: 'SettingsCtrl'
       }
     }
   });

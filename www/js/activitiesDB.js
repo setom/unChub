@@ -13,26 +13,31 @@ angular.module('unChub.activitiesDB', ['ionic'])
     // Populate the database
     //
     function createTable(tx) {
-        tx.executeSql('CREATE TABLE IF NOT EXISTS ACTIVITIES (id unique, name, date, value)');
-//        tx.executeSql('INSERT INTO DEMO (id, data, cats) VALUES (1, "First row", "Cheese")');
-//        tx.executeSql('INSERT INTO DEMO (id, data, cats) VALUES (2, "Second row", "Mac")');
+        tx.executeSql('CREATE TABLE IF NOT EXISTS ACTIVITIES (id unique, name, date, points)');
     }
 
     // Transaction error callback
-    //
     function errorCB(tx, err) {
         console.log("Error processing SQL: "+err);
     }
 
     // Transaction success callback
-    //
     function successCB() {
         console.log("success!");
     }
     
-    function logActivity(name, value) {
+    //drop the table
+    function eraseTable() {
+        var drop = function(tx) {
+            console.log("eraseTable");
+            tx.executeSql("DELETE FROM ACTIVITIES");
+        };
+        db.transaction(drop, errorCB, successCB);
+    }
+    
+    function logActivity(name, points) {
         var log = function(tx){
-            tx.executeSql("INSERT INTO ACTIVITIES (id, name, date, value) VALUES (3, '"+name+"','May14', "+value+")");
+            tx.executeSql("INSERT INTO ACTIVITIES (id, name, date, points) VALUES (3, '"+name+"','May14', "+points+")");
         };
         db.transaction(log, errorCB, successCB);
     }
@@ -44,6 +49,9 @@ angular.module('unChub.activitiesDB', ['ionic'])
         },
         logActivity: function(name, value){
             logActivity(name, value);
+        }, 
+        eraseTable: function() {
+            eraseTable();
         }
     };
 });

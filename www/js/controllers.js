@@ -12,10 +12,17 @@ angular.module('unChub.controllers', ['unChub.activitiesDB'])
 
     $scope.logRun = function(){
         var name = "Run";
-        var value = "4";
-        DB.logActivity(name, value);
+        var points = "4";
+        DB.logActivity(name, points);
     };
 
+})
+
+.controller('SettingsCtrl', function($scope, DB){
+    
+    $scope.eraseTable = function() {
+        DB.eraseTable();
+    };
 });
 
 
