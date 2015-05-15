@@ -1,6 +1,6 @@
-angular.module('unChub.activitiesDB', ['ionic'])
+angular.module('unChub.activitiesDB', ['ionic', 'unChub.healthIndexDB'])
 
-.factory("activitiesDB", function() {
+.factory("activitiesDB", function($q, healthIndexDB) {
     
     var db; 
     
@@ -11,7 +11,6 @@ angular.module('unChub.activitiesDB', ['ionic'])
     }; 
     
     // Populate the database
-    //
     function createTable(tx) {
         tx.executeSql('CREATE TABLE IF NOT EXISTS activities (id UNIQUE, name, date, points)');
     }
@@ -40,14 +39,27 @@ angular.module('unChub.activitiesDB', ['ionic'])
         db.transaction(function (tx){
             tx.executeSql('SELECT id FROM activities', [], function (tx, results) {
                 var len = results.rows.length;
-                console.log(len);
                 rows = len;
                 return rows;
             });
         });
     }
     
+    //get sum of points column
+    //NB: uses Q.defer as this is an async call, eventually we should implement it everywhere
+    function getPointSum(){
+        var deferred = $q.defer();
+        db.transaction(function(tx){
+            tx.executeSql('SELECT sum(points) AS sumPoints FROM activities', [], function(tx,results){
+                var tot = results.rows.item(0).sumPoints;
+                deferred.resolve(tot);
+            });
+        });
+        return deferred.promise;
+    }
+    
     //add an activity to the activity table
+    //Param: name, points
     function logActivity(name, points) {
         var date = new Date();
         var id = getRows()+1;
@@ -60,7 +72,15 @@ angular.module('unChub.activitiesDB', ['ionic'])
                 points
             ]);
         };
+        //add the activity to the activities table
         db.transaction(log, errorCB, successCB);
+        
+        //add the new points sum to the health DB
+        getPointSum().then(function(pointSum){
+            healthIndexDB.logActivity(date, pointSum);
+        });
+
+
     }
     
     return {

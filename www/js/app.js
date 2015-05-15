@@ -38,6 +38,7 @@ angular.module('unChub', ['ionic', 'unChub.controllers', 'unChub.activitiesDB', 
     url: "/home",
     views: {
       'menuContent': {
+        cache: false,
         templateUrl: "templates/home.html",
         controller: 'HomeCtrl'
       }
