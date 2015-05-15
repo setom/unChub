@@ -1,17 +1,17 @@
 <ion-view view-title="Log Activity">
   <ion-content>
         <h2> Log Activity </h2>
-        <button class="button button-block button-balanced" ng-click="logRun()">
+        <button class="button button-block button-balanced" ng-click="logActivity('Run', 1)">
          Go for a Run
         </button>
-        <button class="button button-block button-balanced">
+        <button class="button button-block button-balanced" ng-click="logActivity('Gym', 1)">
          Go to the Gym
         </button>
-        <button class="button button-block button-assertive">
+        <button class="button button-block button-assertive" ng-click="logActivity('Drunk', -1)">
          Get Drunk
         </button>
-        <button class="button button-block button-assertive">
-         Smoke Pot
+        <button class="button button-block button-assertive" ng-click="logActivity('Pizza', -1)">
+         Eat Pizza
         </button>
   </ion-content>
 </ion-view>

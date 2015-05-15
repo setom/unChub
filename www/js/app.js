@@ -4,12 +4,13 @@
  * 14 May, 2015
  * 
  */
-angular.module('unChub', ['ionic', 'unChub.controllers', 'unChub.activitiesDB'])
+angular.module('unChub', ['ionic', 'unChub.controllers', 'unChub.activitiesDB', 'unChub.healthIndexDB'])
 
-.run(function($ionicPlatform, DB) {
+.run(function($ionicPlatform, activitiesDB, healthIndexDB) {
   $ionicPlatform.ready(function() {    
     //open the DB
-    DB.openDB();
+    activitiesDB.openDB();
+    healthIndexDB.openDB();
     
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)

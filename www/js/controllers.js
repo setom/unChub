@@ -8,20 +8,19 @@ angular.module('unChub.controllers', ['unChub.activitiesDB'])
             
 })
 
-.controller('LogActivityCtrl', function($scope, DB){
+.controller('LogActivityCtrl', function($scope, activitiesDB){
 
-    $scope.logRun = function(){
-        var name = "Run";
-        var points = "4";
-        DB.logActivity(name, points);
+    $scope.logActivity = function(name, points){
+        activitiesDB.logActivity(name, points);
     };
 
 })
 
-.controller('SettingsCtrl', function($scope, DB){
+.controller('SettingsCtrl', function($scope, activitiesDB, healthIndexDB){
     
     $scope.eraseTable = function() {
-        DB.eraseTable();
+        activitiesDB.eraseTable();
+        healthIndexDB.eraseTable();
     };
 });
 

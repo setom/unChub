@@ -1,6 +1,6 @@
-angular.module('unChub.activitiesDB', ['ionic'])
+angular.module('unChub.healthIndexDB', ['ionic'])
 
-.factory("activitiesDB", function() {
+.factory("healthIndexDB", function() {
     
     var db; 
     
@@ -13,7 +13,7 @@ angular.module('unChub.activitiesDB', ['ionic'])
     // Populate the database
     //
     function createTable(tx) {
-        tx.executeSql('CREATE TABLE IF NOT EXISTS activities (id UNIQUE, name, date, points)');
+        tx.executeSql('CREATE TABLE IF NOT EXISTS healthIndex (id unique, day, healthIndex)');
     }
 
     // Transaction error callback
@@ -29,36 +29,17 @@ angular.module('unChub.activitiesDB', ['ionic'])
     //drop the table
     function eraseTable() {
         var drop = function(tx) {
-            console.log("erase activities Table");
-            tx.executeSql("DELETE FROM activities");
+            console.log("erase healthIndex Table");
+            tx.executeSql("DELETE FROM healthIndex");
         };
         db.transaction(drop, errorCB, successCB);
     }
     
-    //get rows in table
-    function getRows(rows){
-        db.transaction(function (tx){
-            tx.executeSql('SELECT id FROM activities', [], function (tx, results) {
-                var len = results.rows.length;
-                console.log(len);
-                rows = len;
-                return rows;
-            });
-        });
-    }
-    
-    //add an activity to the activity table
-    function logActivity(name, points) {
-        var date = new Date();
-        var id = getRows()+1;
+    function logActivity() {
+        var day = 1;
+        var index = 1;
         var log = function(tx){
-            tx.executeSql("INSERT INTO activities (id, name, date, points) VALUES (?,?,?,?)", 
-            [
-                id,
-                name,
-                date,
-                points
-            ]);
+            tx.executeSql("INSERT INTO healthIndex (id, day, healthIndex) VALUES (1, '"+day+", "+index+")");
         };
         db.transaction(log, errorCB, successCB);
     }
