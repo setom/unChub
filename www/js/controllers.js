@@ -4,22 +4,24 @@ angular.module('unChub.controllers', ['unChub.activitiesDB', 'unChub.healthIndex
 
 })
 
-.controller('HomeCtrl', function($scope, healthIndexDB){
-    healthIndexDB.getPoints().then(function(points){
+.controller('HomeCtrl', function($timeout, $scope, healthIndexDB){
+   $timeout(function() {
+           healthIndexDB.getPoints().then(function(points){
        if (points !== null) {
            $scope.score = points;
        } else {
            $scope.score = 0;
        }
     });
+   }, 1000);
 })
 
-.controller('LogActivityCtrl', function($scope, activitiesDB){
-
-    $scope.logActivity = function(name, points){
-        activitiesDB.logActivity(name, points);
-    };
-
+.controller('LogActivityCtrl', function($timeout, $scope, activitiesDB){
+   $timeout(function() {
+        $scope.logActivity = function(name, points){
+            activitiesDB.logActivity(name, points);
+        };
+   }, 1000);
 })
 
 .controller('SettingsCtrl', function($scope, activitiesDB, healthIndexDB){

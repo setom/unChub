@@ -6,11 +6,13 @@
  */
 angular.module('unChub', ['ionic', 'unChub.controllers', 'unChub.activitiesDB', 'unChub.healthIndexDB'])
 
-.run(function($ionicPlatform, activitiesDB, healthIndexDB) {
+.run(function($ionicPlatform, $timeout, activitiesDB, healthIndexDB) {
   $ionicPlatform.ready(function() {    
-    //open the DB
-    activitiesDB.openDB();
-    healthIndexDB.openDB();
+    $timeout(function() {
+        //open the DB
+        activitiesDB.openDB();
+        healthIndexDB.openDB();
+    }, 500);
     
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
@@ -21,6 +23,8 @@ angular.module('unChub', ['ionic', 'unChub.controllers', 'unChub.activitiesDB', 
       // org.apache.cordova.statusbar required
       StatusBar.styleDefault();
     }
+    
+    
   });
 })
 
