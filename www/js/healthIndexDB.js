@@ -70,17 +70,42 @@ angular.module('unChub.healthIndexDB', ['ionic'])
     //get the current point value
     function getPoints(){
         var deferred = $q.defer();
-        getRows().then(function(row){
             db.transaction(function (tx){
-                tx.executeSql("SELECT points AS pts FROM healthIdx WHERE id = ?", [row], function (tx, results) {
+                tx.executeSql("SELECT SUM(points) AS pts FROM healthIdx", [], function (tx, results) {
                     var points = results.rows.item(0).pts;
                     console.log("points: " + points);
                     deferred.resolve(points);
                 });
             });
+        return deferred.promise;
+    }
+    
+    //get the point value for a specified day 
+    //param: requires int value for days, (0-6, sun-0 mon-1 etc...)
+    function getDailyPoints(day) {
+        var deferred = $q.defer();
+         db.transaction(function (tx){
+            tx.executeSql("SELECT SUM(points) AS pts FROM healthIdx WHERE day = ?", [day], function(tx, results) {
+                var points = results.rows.item(0).pts;
+                if(points === null){
+                    points = 0;
+                }
+                deferred.resolve(points);
+            });
         });
         return deferred.promise;
     }
+    
+    function getWeeklyPoints() {
+        var deferred = $q.defer();
+        var weekPts = [];
+        for (i = 0; i < 7; i++){
+            weekPts[i] = getDailyPoints(i);
+        }
+        deferred.resolve($q.all(weekPts));
+        return deferred.promise;
+    }
+    
     
     return {
         openDB: function() {
@@ -94,6 +119,13 @@ angular.module('unChub.healthIndexDB', ['ionic'])
         },
         getPoints: function() {
             return getPoints();
+        },
+        //not a public call for now
+//        getDailyPoints: function(day) {
+//            return getDailyPoints(day);
+//        }
+        getWeeklyPoints: function() {
+            return getWeeklyPoints();
         }
     };
 });

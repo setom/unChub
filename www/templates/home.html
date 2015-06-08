@@ -1,7 +1,12 @@
 <ion-view cache-view="false" view-title="unChub">
   <ion-content>
 
-       <h5>Greetings! Your current health score is:</h5>
-       <h3>Score: {{score}}</h3>
+        <h5>Greetings! Your current health score is:</h5>
+        <h3>Net Weekly Score: {{score}}</h3>
+       
+        <canvas text-align="center" style="padding: 10px;" id="line" class="chart chart-line" data="data"
+          labels="labels">
+        </canvas> 
+       
   </ion-content>
 </ion-view>

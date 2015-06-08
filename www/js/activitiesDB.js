@@ -64,7 +64,8 @@ angular.module('unChub.activitiesDB', ['ionic', 'unChub.healthIndexDB'])
     //add an activity to the activity table
     //Param: name, points
     function logActivity(name, points) {
-        var date = new Date();
+        //set the date param as the day of the week (index 0-6, (sun-0, mon-1 etc...)
+        var date = new Date().getDay();
         var id = getRows()+1;
         var log = function(tx){
             tx.executeSql("INSERT INTO activities (id, name, date, points) VALUES (?,?,?,?)", 
@@ -78,12 +79,9 @@ angular.module('unChub.activitiesDB', ['ionic', 'unChub.healthIndexDB'])
         //add the activity to the activities table
         db.transaction(log, errorCB, successCB);
         
-        //add the new points sum to the health DB
-        getPointSum().then(function(pointSum){
-            healthIndexDB.logActivity(date, pointSum);
-        });
-
-
+        //add the new activity to the healthindexDB
+        healthIndexDB.logActivity(date, points);
+        
     }
     
     return {

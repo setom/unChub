@@ -4,7 +4,7 @@
  * 14 May, 2015
  * 
  */
-angular.module('unChub', ['ionic', 'unChub.controllers', 'unChub.activitiesDB', 'unChub.healthIndexDB'])
+angular.module('unChub', ['ionic', 'chart.js', 'unChub.controllers', 'unChub.activitiesDB', 'unChub.healthIndexDB'])
 
 .run(function($ionicPlatform, $timeout, activitiesDB, healthIndexDB) {
   $ionicPlatform.ready(function() {    

@@ -5,15 +5,26 @@ angular.module('unChub.controllers', ['unChub.activitiesDB', 'unChub.healthIndex
 })
 
 .controller('HomeCtrl', function($timeout, $scope, healthIndexDB){
-   $timeout(function() {
+   
+    
+    $timeout(function() {
            healthIndexDB.getPoints().then(function(points){
-       if (points !== null) {
-           $scope.score = points;
-       } else {
-           $scope.score = 0;
-       }
-    });
-   }, 1000);
+            if (points !== null) {
+                $scope.score = points;
+            } else {
+                $scope.score = 0;
+            }
+        });
+        
+        //chart controls   
+        $scope.labels = ["Sun", "Mon", "Tues", "Wed", "Thurs", "Fri", "Sat"];
+        healthIndexDB.getWeeklyPoints().then(function(pts){
+            console.log(pts);
+            $scope.data = [pts];
+        });
+        
+    }, 500);
+
 })
 
 .controller('LogActivityCtrl', function($timeout, $scope, activitiesDB){
