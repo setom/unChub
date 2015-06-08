@@ -5,9 +5,10 @@ angular.module('unChub.activitiesDB', ['ionic', 'unChub.healthIndexDB'])
     var db; 
     
     //open the DB
+    //1MB size
     function openDB() {
         var deferred = $q.defer();
-        db = window.openDatabase("activityDB", "1.0", "Activities", 10000000);  
+        db = window.openDatabase("activityDB", "1.0", "Activities", 1000000);  
         deferred.resolve(db.transaction(createTable, errorCB, successCB));
         return deferred.promise;
     }; 
