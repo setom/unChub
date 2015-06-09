@@ -26,20 +26,42 @@ angular.module('unChub.controllers', ['unChub.activitiesDB', 'unChub.healthIndex
 
 })
 
-.controller('LogActivityCtrl', function($timeout, $scope, activitiesDB){
-   $timeout(function() {
-        $scope.logActivity = function(name, points){
-            activitiesDB.logActivity(name, points);
-        };
-   }, 1000);
+.controller('LogActivityCtrl', function($timeout, $scope, $ionicPopup, activitiesDB){
+
+    $scope.logActivity = function(name, points){
+        //confirmation dialog
+        var confirmPopup = $ionicPopup.confirm({
+            title: name,
+            template: "Log This Activity?"
+        });
+        confirmPopup.then(function(res){
+            if(res){
+                activitiesDB.logActivity(name, points);
+            } else {
+                console.log("cancelled by user");
+            }
+        });
+    };
+
 })
 
-.controller('SettingsCtrl', function($scope, activitiesDB, healthIndexDB){
+.controller('SettingsCtrl', function($scope, $ionicPopup, activitiesDB, healthIndexDB){
     
     $scope.eraseTable = function() {
-        activitiesDB.eraseTable();
-        healthIndexDB.eraseTable();
+        var confirmPopup = $ionicPopup.confirm({
+            title: "Erase All Records",
+            template: "Are you sure?"
+        });
+        confirmPopup.then(function(res){
+            if(res){
+                activitiesDB.eraseTable();
+                healthIndexDB.eraseTable();
+            } else {
+                console.log("cancelled by user");
+            }
+        });
     };
+    
 });
 
 
