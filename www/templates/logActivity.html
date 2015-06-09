@@ -1,10 +1,10 @@
-<ion-view view-title="Log Activity">
+<ion-view view-title="Log Activity" style="background-color: #fffacc;">
   <ion-content style="text-align: center;">
         <h4> Select an activity to log: </h4>
-        <button class="button button-block button-balanced" ng-click="logActivity('Run', 1)">
+        <button class="button button-block button-positive" ng-click="logActivity('Run', 1)">
          Go for a Run
         </button>
-        <button class="button button-block button-balanced" ng-click="logActivity('Gym', 1)">
+        <button class="button button-block button-positive" ng-click="logActivity('Gym', 1)">
          Go to the Gym
         </button>
         <button class="button button-block button-assertive" ng-click="logActivity('Drunk', -1)">
@@ -14,4 +14,7 @@
          Eat Pizza
         </button>
   </ion-content>
+    <div class="bar bar-footer bar-balanced">
+        <p>     unChub your life, one day at a time </p>
+    </div>
 </ion-view>

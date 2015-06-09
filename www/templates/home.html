@@ -1,12 +1,21 @@
-<ion-view cache-view="false" view-title="unChub">
+<ion-view cache-view="false" view-title="unChub" style="background-color: #fff7d1;">
   <ion-content style="text-align: center;">
-
-        <h5>Greetings! Your current health score is:</h5>
-        <h3>Net Weekly Score: {{score}}</h3>
+      <br>
+        <h3 style="color: #004358">Net Weekly Score: </h3> 
+        <h1> {{score}} </h1>
+        <h5 style="color: #004358"> {{greeting}} </h5>
        
         <canvas text-align="center" style="padding: 10px;" id="line" class="chart chart-line" data="data"
-          labels="labels">
+          labels="labels" colours="colours">
         </canvas> 
+        <br>
+        <br>
+        <button class="button button-positive" ng-click="goLog()">
+            Log New Activity
+        </button>
        
   </ion-content>
+    <div class="bar bar-footer bar-balanced">
+        <p>     unChub your life, one day at a time </p>
+    </div>
 </ion-view>
