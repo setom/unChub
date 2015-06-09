@@ -13,7 +13,7 @@ angular.module('unChub.healthIndexDB', ['ionic'])
         return deferred.promise;
     }; 
     
-    // Populate the database
+    // create the table
     function createTable(tx) {
         tx.executeSql('CREATE TABLE IF NOT EXISTS healthIdx (id UNIQUE, day, points)');
     }
@@ -37,7 +37,7 @@ angular.module('unChub.healthIndexDB', ['ionic'])
         };
         db.transaction(drop, errorCB, successCB);
     }
-    
+        
     //get rows in table
     //NB: promisified, we should implement promises everywhere
     function getRows(){
@@ -52,19 +52,28 @@ angular.module('unChub.healthIndexDB', ['ionic'])
     }
     
     function logActivity(day, points) {
-        var id;
-        getRows().then(function(rows){
-            id = rows+1;
-            var log = function(tx){
-                 tx.executeSql("INSERT INTO healthIdx (id, day, points) VALUES (?,?,?)", 
-                [
-                    id,
-                    day,
-                    points
-                ]);
-            };
-            db.transaction(log, errorCB, successCB);
-        });        
+        //check if the day is in the table already
+        db.transaction(function(tx){
+            tx.executeSql("SELECT * FROM healthIdx WHERE day = ?", [day], function(tx, results){
+                //if the day doesn't exist in the table, insert a new record for that day
+                if (results.rows.length === 0){
+                    db.transaction(function(tz){
+                        tz.executeSql("INSERT INTO healthIdx (id, day, points) VALUES (?,?,?)", 
+                        [
+                            day, 
+                            day, 
+                            points
+                        ]);
+                    }, errorCB, successCB);
+                }
+                //if the day DOES exist, update the points field to reflect the new activity
+                else {
+                    db.transaction(function(ty){
+                        ty.executeSql("UPDATE healthIdx SET points = points + ? WHERE day = ?", [points,day]);
+                    }, errorCB, successCB);
+                }
+            });
+        });
     }
     
     //get the current point value
@@ -111,6 +120,9 @@ angular.module('unChub.healthIndexDB', ['ionic'])
         openDB: function() {
             openDB();
         },
+        populateStarterTable: function(){
+            populateStarterTable();
+        },
         logActivity: function(day, points){
             logActivity(day, points);
         }, 
@@ -120,7 +132,7 @@ angular.module('unChub.healthIndexDB', ['ionic'])
         getPoints: function() {
             return getPoints();
         },
-        //not a public call for now
+        //should not be a public call for now
 //        getDailyPoints: function(day) {
 //            return getDailyPoints(day);
 //        }

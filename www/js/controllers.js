@@ -19,7 +19,6 @@ angular.module('unChub.controllers', ['unChub.activitiesDB', 'unChub.healthIndex
         //chart controls   
         $scope.labels = ["Sun", "Mon", "Tues", "Wed", "Thurs", "Fri", "Sat"];
         healthIndexDB.getWeeklyPoints().then(function(pts){
-            console.log(pts);
             $scope.data = [pts];
         });
         
