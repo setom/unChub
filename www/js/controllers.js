@@ -18,7 +18,7 @@ angular.module('unChub.controllers', ['unChub.activitiesDB', 'unChub.healthIndex
                 }
             } else {
                 $scope.score = 0;
-                $scope.greeting = "unChub your life!"
+                $scope.greeting = "unChub your life!";
             }
         });
         
